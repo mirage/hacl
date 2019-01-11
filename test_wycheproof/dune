@@ -1,0 +1,5 @@
+(test
+ (name wycheproof_hacl)
+ (libraries alcotest hacl wycheproof)
+ (preprocess (pps ppx_deriving.std))
+)
