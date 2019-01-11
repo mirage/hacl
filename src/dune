@@ -4,10 +4,5 @@
  (libraries       bigstring)
  (c_names         hacl_stubs
                   Hacl_Curve25519)
- (c_flags         (:include c_flags.sexp))
+ (c_flags         -fwrapv -fomit-frame-pointer -funroll-loops)
  )
-
-; sets flags for 32/64 bits architectures
-(rule
- (targets c_flags.sexp)
- (action  (run %{exe:config/discover.exe} -ocamlc %{ocamlc})))
