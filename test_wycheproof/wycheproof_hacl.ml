@@ -6,7 +6,7 @@ let test ~private_ ~public ~expected () =
   let res = Bigstring.create Hacl.Box.ckbytes in
   Hacl.Box.scalarmult res
     (Bigstring.of_string private_)
-    (Bigstring.of_string public) ;
+    (Bigstring.of_string public);
   let got = Bigstring.to_string res in
   Alcotest.check hex "should be equal" expected got
 
