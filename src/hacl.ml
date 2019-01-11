@@ -108,10 +108,19 @@ module Box = struct
           '\x00' )
 
   (* pk -> sk -> basepoint -> unit *)
-  external scalarmult :
+  external scalarmult_raw :
     Bigstring.t -> Bigstring.t -> Bigstring.t -> unit
     = "ml_Hacl_Curve25519_crypto_scalarmult"
     [@@noalloc]
+
+  let scalarmult result priv pub =
+    let sizes_ok =
+      Bigstring.length pub = pkbytes
+      && Bigstring.length priv = skbytes
+      && Bigstring.length result = ckbytes
+    in
+    if sizes_ok then scalarmult_raw result priv pub
+    else invalid_arg "wrong size"
 
   let neuterize (Sk sk) =
     let pk = Bigstring.create pkbytes in
