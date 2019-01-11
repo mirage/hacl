@@ -137,6 +137,8 @@ module Box : sig
   val box_open :
     k:combined key -> nonce:Bigstring.t ->
     cmsg:Bigstring.t -> msg:Bigstring.t -> bool
+
+  val scalarmult : Bigstring.t -> Bigstring.t -> Bigstring.t -> unit
 end
 
 module Sign : sig

@@ -1,15 +1,12 @@
 open Wycheproof
 
-external scalarmult :
-  Bigstring.t -> Bigstring.t -> Bigstring.t -> unit
-  = "ml_Hacl_Curve25519_crypto_scalarmult"
-  [@@noalloc]
-
 let hex = Alcotest.testable Wycheproof.pp_hex Wycheproof.equal_hex
 
 let test ~private_ ~public ~expected () =
   let res = Bigstring.create Hacl.Box.ckbytes in
-  scalarmult res (Bigstring.of_string private_) (Bigstring.of_string public) ;
+  Hacl.Box.scalarmult res
+    (Bigstring.of_string private_)
+    (Bigstring.of_string public) ;
   let got = Bigstring.to_string res in
   Alcotest.check hex "should be equal" expected got
 
