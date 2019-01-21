@@ -5,7 +5,7 @@ let result fmt f =
   | exception _ ->
       Format.pp_print_string fmt "raised"
 
-let kx ~priv ~pub () = Hacl.scalarmult_alloc ~priv ~pub
+let kx ~priv ~pub () = Hacl_x25519.scalarmult_alloc ~priv ~pub
 
 let test ~name ~priv ~pub =
   Format.printf "%s: %a\n" name result (kx ~priv ~pub)

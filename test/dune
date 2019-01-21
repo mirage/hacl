@@ -1,4 +1,4 @@
 (test
  (name test)
- (libraries hacl hex)
+ (libraries hacl_x25519 hex)
 )

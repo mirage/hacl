@@ -1,4 +1,4 @@
 (test
  (name wycheproof_hacl)
- (libraries alcotest hacl wycheproof)
+ (libraries alcotest hacl_x25519 wycheproof)
 )

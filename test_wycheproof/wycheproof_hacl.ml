@@ -4,7 +4,7 @@ let hex = Alcotest.testable Wycheproof.pp_hex Wycheproof.equal_hex
 
 let test ~private_ ~public ~expected () =
   let result =
-    Hacl.scalarmult_alloc
+    Hacl_x25519.scalarmult_alloc
       ~priv:(Cstruct.of_string private_)
       ~pub:(Cstruct.of_string public)
   in
@@ -20,4 +20,4 @@ let tests =
   |> List.map (fun group -> List.map make_test group.tests)
   |> List.concat
 
-let () = Alcotest.run "Wycheproof-hacl" [("test vectors", tests)]
+let () = Alcotest.run "Wycheproof-hacl-x25519" [("test vectors", tests)]
