@@ -5,10 +5,10 @@ let hex = Alcotest.testable Wycheproof.pp_hex Wycheproof.equal_hex
 let test ~private_ ~public ~expected () =
   let result =
     Hacl.scalarmult_alloc
-      ~priv:(Bigstring.of_string private_)
-      ~pub:(Bigstring.of_string public)
+      ~priv:(Cstruct.of_string private_)
+      ~pub:(Cstruct.of_string public)
   in
-  let got = Bigstring.to_string result in
+  let got = Cstruct.to_string result in
   Alcotest.check hex "should be equal" expected got
 
 let make_test {tcId; comment; private_; public; shared; _} =

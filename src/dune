@@ -1,5 +1,5 @@
 (library
  (public_name hacl)
- (libraries bigstring)
+ (libraries cstruct)
  (c_names hacl_stubs Hacl_Curve25519)
  (c_flags -fwrapv -fomit-frame-pointer -funroll-loops))

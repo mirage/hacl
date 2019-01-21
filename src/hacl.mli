@@ -1,1 +1,1 @@
-val scalarmult_alloc : priv:Bigstring.t -> pub:Bigstring.t -> Bigstring.t
+val scalarmult_alloc : priv:Cstruct.t -> pub:Cstruct.t -> Cstruct.t

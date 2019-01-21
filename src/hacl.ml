@@ -2,20 +2,19 @@ let key_length_bytes = 32
 
 (* pk -> sk -> basepoint -> unit *)
 external scalarmult_raw :
-  Bigstring.t -> Bigstring.t -> Bigstring.t -> unit
+  Cstruct.buffer -> Cstruct.buffer -> Cstruct.buffer -> unit
   = "ml_Hacl_Curve25519_crypto_scalarmult"
   [@@noalloc]
 
-let scalarmult_into ~result ~priv ~pub =
-  let sizes_ok =
-    Bigstring.length pub = key_length_bytes
-    && Bigstring.length priv = key_length_bytes
-    && Bigstring.length result = key_length_bytes
-  in
-  if sizes_ok then scalarmult_raw result priv pub
+let checked_buffer cs =
+  if Cstruct.len cs = key_length_bytes then Cstruct.to_bigarray cs
   else invalid_arg "wrong size"
 
+let scalarmult_into ~result ~priv ~pub =
+  scalarmult_raw (checked_buffer result) (checked_buffer priv)
+    (checked_buffer pub)
+
 let scalarmult_alloc ~priv ~pub =
-  let result = Bigstring.create key_length_bytes in
+  let result = Cstruct.create key_length_bytes in
   scalarmult_into ~result ~priv ~pub;
   result
