@@ -1,7 +1,5 @@
-ok: true
+ok: 87b7f212b627f7a54ca5e0bcdaddd5389d9de6156cdbcf8ebe14ffbcfb436551
 public too short: raised
 public too long: raised
 private too short: raised
 private too long: raised
-result too short: raised
-result too long: raised

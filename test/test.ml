@@ -1,42 +1,30 @@
-let bigstring_hex s = Bigstring.of_string (Hex.to_string (`Hex s))
+let of_hex s = `Hex s |> Hex.to_cstruct |> Cstruct.to_bigarray
 
-let raised fmt f =
-  let s =
-    match f () with
-    | _ ->
-        "did not raise"
-    | exception _ ->
-        "raised"
-  in
-  Format.fprintf fmt "%s\n" s
+let pp_hex fmt x = Cstruct.of_bigarray x |> Hex.of_cstruct |> Hex.pp fmt
 
-let kx ~private_ ~public () =
-  let got = Bigstring.create Hacl.Box.ckbytes in
-  Hacl.Box.scalarmult got private_ public;
-  got
+let result fmt f =
+  match f () with
+  | result ->
+      Format.fprintf fmt "%a" pp_hex result
+  | exception _ ->
+      Format.fprintf fmt "raised"
+
+let kx ~priv ~pub () = Hacl.scalarmult_alloc ~priv ~pub
+
+let test ~name ~priv ~pub =
+  Format.printf "%s: %a\n" name result (kx ~priv ~pub)
 
 let () =
-  let public =
-    bigstring_hex
-      "9c647d9ae589b9f58fdc3ca4947efbc915c4b2e08e744a0edf469dac59c8f85a"
+  let pub =
+    of_hex "9c647d9ae589b9f58fdc3ca4947efbc915c4b2e08e744a0edf469dac59c8f85a"
   in
-  let private_ =
-    bigstring_hex
-      "4852834d9d6b77dadeabaaf2e11dca66d19fe74993a7bec36c6e16a0983feaba"
-  in
-  let expected =
-    bigstring_hex
-      "87b7f212b627f7a54ca5e0bcdaddd5389d9de6156cdbcf8ebe14ffbcfb436551"
+  let priv =
+    of_hex "4852834d9d6b77dadeabaaf2e11dca66d19fe74993a7bec36c6e16a0983feaba"
   in
   let too_short = Bigstring.create 31 in
   let too_long = Bigstring.create 33 in
-  let kx_into bs () = Hacl.Box.scalarmult bs private_ public in
-  Printf.printf "ok: %b\n"
-    (Bigstring.equal expected (kx ~private_ ~public ()));
-  Format.printf "public too short: %a" raised (kx ~private_ ~public:too_short);
-  Format.printf "public too long: %a" raised (kx ~private_ ~public:too_long);
-  Format.printf "private too short: %a" raised
-    (kx ~private_:too_short ~public);
-  Format.printf "private too long: %a" raised (kx ~private_:too_long ~public);
-  Format.printf "result too short: %a" raised (kx_into too_short);
-  Format.printf "result too long: %a" raised (kx_into too_long)
+  test ~name:"ok" ~priv ~pub;
+  test ~name:"public too short" ~priv ~pub:too_short;
+  test ~name:"public too long" ~priv ~pub:too_long;
+  test ~name:"private too short" ~priv:too_short ~pub;
+  test ~name:"private too long" ~priv:too_long ~pub
