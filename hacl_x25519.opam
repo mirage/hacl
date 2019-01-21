@@ -1,0 +1,25 @@
+opam-version: "2.0"
+maintainer: "Etienne Millon <me@emillon.org>"
+authors: [
+    "Etienne Millon <me@emillon.org>"
+    "INRIA and Microsoft Corporation"
+]
+homepage: "https://github.com/emillon/ocaml-hacl-ecc"
+bug-reports: "https://github.com/emillon/ocaml-hacl-ecc/issues"
+dev-repo: "git+https://github.com/emillon/ocaml-hacl-ecc.git"
+doc: "https://emillon.github.io/ocaml-hacl-ecc/doc"
+build: [
+ ["dune" "subst"] {pinned}
+ ["dune" "build" "-p" name "-j" jobs]
+ ["dune" "runtest" "-p" name] {with-test}
+]
+depends: [
+  "dune" {build & >= "1.4.0"}
+  "cstruct" {>= "3.2.0"}
+  "alcotest" {with-test}
+  "ppx_deriving_yojson" {with-test}
+  "yojson" {with-test}
+  "hex" {with-test}
+  "ppx_blob" {with-test}
+]
+synopsis: "Primitives for Elliptic Curve Cryptography taken from Project Everest"
