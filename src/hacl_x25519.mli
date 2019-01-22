@@ -3,10 +3,24 @@ exception Invalid_size
 val key_length_bytes : int
 (** The length of public and private keys, in bytes. Equal to 32. *)
 
-val public : Cstruct.t -> Cstruct.t
+type public
+
+type private_
+
+val public_of_cstruct : Cstruct.t -> public
+(** Raises [Invalid_size] if input is not [key_length_bytes] bytes long. *)
+
+val public_to_cstruct : public -> Cstruct.t
+
+val private_of_cstruct : Cstruct.t -> private_
+(** Raises [Invalid_size] if input is not [key_length_bytes] bytes long. *)
+
+val private_to_cstruct : private_ -> Cstruct.t
+
+val public : private_ -> public
 (** Compute the public part corresponding to a private key. *)
 
-val key_exchange : priv:Cstruct.t -> pub:Cstruct.t -> Cstruct.t
+val key_exchange : priv:private_ -> pub:public -> Cstruct.t
 (** Perform Diffie-Hellman key exchange between a private part and a public
     part.
 
@@ -15,6 +29,4 @@ val key_exchange : priv:Cstruct.t -> pub:Cstruct.t -> Cstruct.t
 
     The following holds: [key_exchange ~pub:(public a) ~priv:b = key_exchange ~pub:(public
     b) ~priv:a].
-
-    Raises [Invalid_size] if [priv] or [pub] is not [key_length_bytes] bytes long.
 *)

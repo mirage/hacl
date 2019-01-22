@@ -1,8 +1,13 @@
-ok: 87 b7 f2 12 b6 27 f7 a5  4c a5 e0 bc da dd d5 38 
-    9d 9d e6 15 6c db cf 8e  be 14 ff bc fb 43 65 51 
-    
+ok:
+9c 64 7d 9a e5 89 b9 f5  8f dc 3c a4 94 7e fb c9 
+15 c4 b2 e0 8e 74 4a 0e  df 46 9d ac 59 c8 f8 5a 
+
 public too short: raised Hacl_x25519.Invalid_size
 public too long: raised Hacl_x25519.Invalid_size
+ok:
+48 52 83 4d 9d 6b 77 da  de ab aa f2 e1 1d ca 66 
+d1 9f e7 49 93 a7 be c3  6c 6e 16 a0 98 3f ea ba 
+
 private too short: raised Hacl_x25519.Invalid_size
 private too long: raised Hacl_x25519.Invalid_size
 alice_public:
