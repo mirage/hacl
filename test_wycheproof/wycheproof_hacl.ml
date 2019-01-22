@@ -9,7 +9,7 @@ let check pp equal name expected got =
 let run_test {tcId; comment; private_; public; shared = expected; _} =
   let name = Printf.sprintf "%d - %s" tcId comment in
   let result =
-    Hacl_x25519.scalarmult_alloc
+    Hacl_x25519.key_exchange
       ~priv:(Cstruct.of_string private_)
       ~pub:(Cstruct.of_string public)
   in
