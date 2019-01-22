@@ -5,7 +5,7 @@ ocaml-hacl-ecc
 
 These are bindings to the various primitives present in [Project Everest].
 
-In particular, the C code comes from [this snapshot], originally for use in the
+In particular, the C code comes from this [snapshot], originally for use in the
 Tezos project.
 
 [Project Everest]: https://project-everest.github.io/

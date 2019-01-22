@@ -4,6 +4,7 @@ authors: [
     "Etienne Millon <me@emillon.org>"
     "INRIA and Microsoft Corporation"
 ]
+license: "MIT"
 homepage: "https://github.com/emillon/ocaml-hacl-ecc"
 bug-reports: "https://github.com/emillon/ocaml-hacl-ecc/issues"
 dev-repo: "git+https://github.com/emillon/ocaml-hacl-ecc.git"
