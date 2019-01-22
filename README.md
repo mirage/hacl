@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/emillon/ocaml-hacl-ecc.svg?branch=master)](https://travis-ci.org/emillon/ocaml-hacl-ecc)
+
 ocaml-hacl-ecc
 --------------
 
