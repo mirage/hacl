@@ -6,17 +6,16 @@ let check pp equal name expected got =
     Format.printf "%s - error\nexpected:\n%a\ngot:\n%a\n" name pp expected pp
       got
 
-let get_ok = function
+let of_string s =
+  match Hacl_x25519.of_cstruct (Cstruct.of_string s) with
   | Ok x ->
       x
   | Error _ ->
       assert false
 
 let key_exchange ~priv ~pub =
-  let open Hacl_x25519 in
-  let priv = get_ok (private_of_cstruct (Cstruct.of_string priv)) in
-  let pub = get_ok (public_of_cstruct (Cstruct.of_string pub)) in
-  Cstruct.to_string (key_exchange ~priv ~pub)
+  Cstruct.to_string
+    (Hacl_x25519.key_exchange ~priv:(of_string priv) ~pub:(of_string pub))
 
 let run_test {tcId; comment; private_; public; shared = expected; _} =
   let name = Printf.sprintf "%d - %s" tcId comment in

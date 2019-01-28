@@ -4,12 +4,6 @@ ok:
 
 public too short: error: Invalid key size
 public too long: error: Invalid key size
-ok:
-48 52 83 4d 9d 6b 77 da  de ab aa f2 e1 1d ca 66 
-d1 9f e7 49 93 a7 be c3  6c 6e 16 a0 98 3f ea ba 
-
-private too short: error: Invalid key size
-private too long: error: Invalid key size
 alice_public:
 85 20 f0 09 89 30 a7 54  74 8b 7d dc b4 3e f7 5a 
 0d bf 3a 0d 26 38 1a f4  eb a4 a9 8e aa 9b 4e 6a 
