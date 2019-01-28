@@ -1,11 +1,18 @@
 let print_result result_to_string ~name f x =
   match f x with
-  | result ->
+  | Ok result ->
       Printf.printf "%s:\n%s\n" name (result_to_string result)
-  | exception e ->
-      Printf.printf "%s: raised %s\n" name (Printexc.to_string e)
+  | Error e ->
+      Printf.printf "%s: error: %s\n" name e
 
-let private_of_hex s = Hacl_x25519.private_of_cstruct (Cstruct.of_hex s)
+let get_ok = function
+  | Ok x ->
+      x
+  | Error _ ->
+      assert false
+
+let private_of_hex s =
+  get_ok (Hacl_x25519.private_of_cstruct (Cstruct.of_hex s))
 
 let too_short = Cstruct.create 31
 

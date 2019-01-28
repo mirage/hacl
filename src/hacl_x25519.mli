@@ -1,5 +1,3 @@
-exception Invalid_size
-
 val key_length_bytes : int
 (** The length of public and private keys, in bytes. Equal to 32. *)
 
@@ -7,12 +5,12 @@ type public
 
 type private_
 
-val public_of_cstruct : Cstruct.t -> public
+val public_of_cstruct : Cstruct.t -> (public, string) result
 (** Raises [Invalid_size] if input is not [key_length_bytes] bytes long. *)
 
 val public_to_cstruct : public -> Cstruct.t
 
-val private_of_cstruct : Cstruct.t -> private_
+val private_of_cstruct : Cstruct.t -> (private_, string) result
 (** Raises [Invalid_size] if input is not [key_length_bytes] bytes long. *)
 
 val private_to_cstruct : private_ -> Cstruct.t

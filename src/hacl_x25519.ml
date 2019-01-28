@@ -1,5 +1,3 @@
-exception Invalid_size
-
 let key_length_bytes = 32
 
 type public = [`Checked of Cstruct.t]
@@ -7,8 +5,8 @@ type public = [`Checked of Cstruct.t]
 type private_ = [`Checked of Cstruct.t]
 
 let check cs =
-  if Cstruct.len cs = key_length_bytes then `Checked cs
-  else raise Invalid_size
+  if Cstruct.len cs = key_length_bytes then Ok (`Checked cs)
+  else Error "Invalid key size"
 
 let public_of_cstruct = check
 
@@ -37,5 +35,4 @@ let basepoint =
   let cs = Cstruct.create key_length_bytes in
   Cstruct.set_uint8 cs 0 9; `Checked cs
 
-let public priv =
-  `Checked (key_exchange ~priv ~pub:basepoint)
+let public priv = `Checked (key_exchange ~priv ~pub:basepoint)

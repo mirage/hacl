@@ -6,14 +6,21 @@ let check pp equal name expected got =
     Format.printf "%s - error\nexpected:\n%a\ngot:\n%a\n" name pp expected pp
       got
 
+let get_ok = function
+  | Ok x ->
+      x
+  | Error _ ->
+      assert false
+
+let key_exchange ~priv ~pub =
+  let open Hacl_x25519 in
+  let priv = get_ok (private_of_cstruct (Cstruct.of_string priv)) in
+  let pub = get_ok (public_of_cstruct (Cstruct.of_string pub)) in
+  Cstruct.to_string (key_exchange ~priv ~pub)
+
 let run_test {tcId; comment; private_; public; shared = expected; _} =
   let name = Printf.sprintf "%d - %s" tcId comment in
-  let result =
-    Hacl_x25519.key_exchange
-      ~priv:(Hacl_x25519.private_of_cstruct (Cstruct.of_string private_))
-      ~pub:(Hacl_x25519.public_of_cstruct (Cstruct.of_string public))
-  in
-  let got = Cstruct.to_string result in
+  let got = key_exchange ~priv:private_ ~pub:public in
   check Wycheproof.pp_hex Wycheproof.equal_hex name expected got
 
 let () =
