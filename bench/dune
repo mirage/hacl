@@ -1,0 +1,7 @@
+(executable
+ (name bench)
+ (libraries hacl_x25519 benchmark))
+
+(alias
+ (name bench)
+ (action (run ./bench.exe --all)))
