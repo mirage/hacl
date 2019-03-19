@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/mirage/ocaml-hacl-ecc.svg?branch=master)](https://travis-ci.org/mirage/ocaml-hacl-ecc)
+[![Build Status](https://travis-ci.org/mirage/hacl.svg?branch=master)](https://travis-ci.org/mirage/hacl)
 
-ocaml-hacl-ecc
---------------
+hacl
+----
 
 These are bindings to the various primitives present in [Project Everest].
 
