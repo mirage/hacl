@@ -14,7 +14,6 @@
     use this in the context of TLS 1.3.
 *)
 
-
 val key_length_bytes : int
 (** The length of public and private keys, in bytes. Equal to 32. *)
 
@@ -55,7 +54,7 @@ val public : priv_key -> pub_key
 
 val key_exchange : priv:priv_key -> pub:pub_key -> Cstruct.t
 (** Perform Diffie-Hellman key exchange between a private part and a public
-    part.
+    part. It makes a fresh allocated result.
 
     In DH terms, the private part corresponds to a scalar, and the public part
     corresponds to a point, and this computes the scalar multiplication.
@@ -75,3 +74,9 @@ val key_exchange : priv:priv_key -> pub:pub_key -> Cstruct.t
     secret is the all-zero value and abort if so". This should be done in
     constant time, for example by using the {{: https://github.com/mirage/eqaf/}
     eqaf} library. *)
+
+val key_exchange_inplace : shared:Cstruct.t -> priv:priv_key -> pub:pub_key -> unit
+(** Same as {!key_exchange} but without allocation. It uses the [shared]
+    [Cstruct.t] argument as the result of the computation of Diffie-Hellman key
+    exchange. Length of [shared] must be equal to {!key_length_bytes}. Otherwise,
+    it raises an [Invalid_argument]. *)

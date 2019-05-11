@@ -24,12 +24,16 @@ external scalarmult_raw :
 
 let checked_buffer (`Checked cs) = Cstruct.to_bigarray cs
 
+let key_exchange_inplace ~shared:result ~priv ~pub =
+  match of_cstruct result with
+  | Ok result ->
+    scalarmult_raw (checked_buffer result) (checked_buffer priv) (checked_buffer pub)
+  | Error err -> invalid_arg err
+
 let key_exchange ~priv ~pub =
-  let cs = Cstruct.create key_length_bytes in
-  let result = `Checked cs in
-  scalarmult_raw (checked_buffer result) (checked_buffer priv)
-    (checked_buffer pub);
-  cs
+  let shared = Cstruct.create key_length_bytes in
+  key_exchange_inplace ~shared ~priv ~pub ;
+  shared
 
 let basepoint =
   let cs = Cstruct.create key_length_bytes in
