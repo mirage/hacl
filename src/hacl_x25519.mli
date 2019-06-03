@@ -14,39 +14,38 @@
     use this in the context of TLS 1.3.
 *)
 
-
 val key_length_bytes : int
 (** The length of public and private keys, in bytes. Equal to 32. *)
 
-(** A cryptographic key (public or private).
+(** A private key. In elliptic curve terms, a scalar.
+
     To generate a key pair:
     - generate a random cstruct of length [key_length_bytes].
-    - call [of_cstruct] on it. This is the private key.
+    - call [priv_key_of_cstruct] on it. This is the private key.
     - call [public] on the private key. This returns the corresponding public
     key.
-
-    This uses phantom types to make [of_cstruct] and [to_cstruct] polymorphic in
-    the key type.
 *)
-type _ key
+type priv_key
 
-type priv
+(** A public key. In elliptic curve terms, a point. *)
+type pub_key
 
-(** A private key. In elliptic curve terms, a scalar. *)
-type priv_key = priv key
-
-type pub
-
-(** A private key. In elliptic curve terms, a point. *)
-type pub_key = pub key
-
-val of_cstruct : Cstruct.t -> (_ key, string) result
-(** Convert a [Cstruct.t] into a key. Internally, this only checks that its
+val priv_key_of_cstruct : Cstruct.t -> (priv_key, string) result
+(** Convert a [Cstruct.t] into a private key. Internally, this only checks that its
     length is [key_length_bytes]. If that is not the case, returns an error
     message. *)
 
-val to_cstruct : _ key -> Cstruct.t
-(** Return the [Cstruct.t] corresponding to a key. It is always
+val pub_key_of_cstruct : Cstruct.t -> (pub_key, string) result
+(** Convert a [Cstruct.t] into a public key. Internally, this only checks that its
+    length is [key_length_bytes]. If that is not the case, returns an error
+    message. *)
+
+val priv_key_to_cstruct : priv_key -> Cstruct.t
+(** Return the [Cstruct.t] corresponding to a private key. It is always
+    [key_length_bytes] bytes long. *)
+
+val pub_key_to_cstruct : pub_key -> Cstruct.t
+(** Return the [Cstruct.t] corresponding to a public key. It is always
     [key_length_bytes] bytes long. *)
 
 val public : priv_key -> pub_key

@@ -1,20 +1,24 @@
 let key_length_bytes = 32
 
-type pub
+type key = [`Checked of Cstruct.t]
 
-type priv
+type pub_key = key
 
-type _ key = [`Checked of Cstruct.t]
-
-type pub_key = pub key
-
-type priv_key = priv key
+type priv_key = key
 
 let of_cstruct cs =
   if Cstruct.len cs = key_length_bytes then Ok (`Checked cs)
   else Error "Invalid key size"
 
+let pub_key_of_cstruct = of_cstruct
+
+let priv_key_of_cstruct = of_cstruct
+
 let to_cstruct (`Checked cs) = cs
+
+let pub_key_to_cstruct = to_cstruct
+
+let priv_key_to_cstruct = to_cstruct
 
 (* pk -> sk -> basepoint -> unit *)
 external scalarmult_raw :

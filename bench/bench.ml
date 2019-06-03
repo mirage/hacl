@@ -12,7 +12,7 @@ let of_ok = function
 let random_private_key () =
   crypto_random_bytes 32
   |> Cstruct.of_string
-  |> Hacl_x25519.of_cstruct
+  |> Hacl_x25519.priv_key_of_cstruct
   |> of_ok
 
 let bench_dh () =
