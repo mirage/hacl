@@ -1,23 +1,13 @@
-let crypto_random_bytes n =
+let read_urandom n =
   let ic = Pervasives.open_in_bin "/dev/urandom" in
   let s = Pervasives.really_input_string ic n in
-  close_in ic; s
+  close_in ic; Cstruct.of_string s
 
-let of_ok = function
-  | Error _ ->
-      assert false
-  | Ok x ->
-      x
-
-let random_private_key () =
-  crypto_random_bytes 32
-  |> Cstruct.of_string
-  |> Hacl_x25519.priv_key_of_cstruct
-  |> of_ok
+let generate_key_pair () = Hacl_x25519.gen_key ~rng:read_urandom
 
 let bench_dh () =
-  let priv = random_private_key () in
-  let pub = Hacl_x25519.public @@ random_private_key () in
+  let priv, _ = generate_key_pair () in
+  let _, pub = generate_key_pair () in
   let run () : (Cstruct.t, _) result = Hacl_x25519.key_exchange priv pub in
   Benchmark.throughputN 1 [("X25519", run, ())]
 

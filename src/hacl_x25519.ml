@@ -61,3 +61,16 @@ let basepoint =
   Cstruct.set_uint8 cs 0 9; Cstruct.to_bigarray cs
 
 let public priv = key_exchange_buffer ~priv ~checked_pub:basepoint
+
+let gen_key ~rng =
+  let secret_cstruct = rng key_length_bytes in
+  let secret =
+    match priv_key_of_cstruct secret_cstruct with
+    | Ok k ->
+        k
+    | Error `Invalid_length ->
+        failwith
+          "Hacl_x25519.gen_key: generator returned an invalid length"
+  in
+  let pub_key = public secret in
+  (secret, pub_key)

@@ -19,11 +19,7 @@ val key_length_bytes : int
 
 (** A private key. In elliptic curve terms, a scalar.
 
-    To generate a key pair:
-    - generate a random cstruct of length [key_length_bytes].
-    - call [priv_key_of_cstruct] on it. This is the private key.
-    - call [public] on the private key. This returns the corresponding public
-    key.
+    To generate a key pair, use [gen_key].
 *)
 type secret
 
@@ -34,6 +30,13 @@ type error =
 
 val pp_error : Format.formatter -> error -> unit
 (** Pretty printer for errors *)
+
+val gen_key : rng:(int -> Cstruct.t) -> secret * Cstruct.t
+(** Generate a key pair. [rng] is a generic [Cstruct.t] allocator that takes a
+    key length as argument.
+
+    If the allocator does not return a cstruct with the correct length, raises
+    [Failure _]. *)
 
 val priv_key_of_cstruct : Cstruct.t -> (secret, error) result
 (** Convert a [Cstruct.t] into a private key. Internally, this only checks that
