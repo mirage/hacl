@@ -1,5 +1,11 @@
 let key_length_bytes = 32
 
+type error = [`Invalid_length]
+
+let pp_error ppf = function
+  | `Invalid_length ->
+      Format.fprintf ppf "Invalid key size"
+
 type key = [`Checked of Cstruct.t]
 
 type pub_key = key
@@ -8,7 +14,7 @@ type priv_key = key
 
 let of_cstruct cs =
   if Cstruct.len cs = key_length_bytes then Ok (`Checked cs)
-  else Error "Invalid key size"
+  else Error `Invalid_length
 
 let pub_key_of_cstruct = of_cstruct
 

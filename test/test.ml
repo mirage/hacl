@@ -7,7 +7,7 @@ let test ~name x =
   | Ok result ->
       Printf.printf "%s:\n%s\n" name (key_to_string result)
   | Error e ->
-      Printf.printf "%s: error: %s\n" name e
+      Format.printf "%s: error: %a\n" name Hacl_x25519.pp_error e
 
 let get_ok = function
   | Ok x ->

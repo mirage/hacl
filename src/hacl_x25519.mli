@@ -30,12 +30,18 @@ type priv_key
 (** A public key. In elliptic curve terms, a point. *)
 type pub_key
 
-val priv_key_of_cstruct : Cstruct.t -> (priv_key, string) result
+(** Kind of errors. *)
+type error = [`Invalid_length]
+
+val pp_error : Format.formatter -> error -> unit
+(** Pretty printer for errors *)
+
+val priv_key_of_cstruct : Cstruct.t -> (priv_key, error) result
 (** Convert a [Cstruct.t] into a private key. Internally, this only checks that its
     length is [key_length_bytes]. If that is not the case, returns an error
     message. *)
 
-val pub_key_of_cstruct : Cstruct.t -> (pub_key, string) result
+val pub_key_of_cstruct : Cstruct.t -> (pub_key, error) result
 (** Convert a [Cstruct.t] into a public key. Internally, this only checks that its
     length is [key_length_bytes]. If that is not the case, returns an error
     message. *)
