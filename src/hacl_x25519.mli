@@ -14,48 +14,44 @@
     use this in the context of TLS 1.3.
 *)
 
-
 val key_length_bytes : int
 (** The length of public and private keys, in bytes. Equal to 32. *)
 
-(** A cryptographic key (public or private).
+(** A private key. In elliptic curve terms, a scalar.
+
     To generate a key pair:
     - generate a random cstruct of length [key_length_bytes].
-    - call [of_cstruct] on it. This is the private key.
+    - call [priv_key_of_cstruct] on it. This is the private key.
     - call [public] on the private key. This returns the corresponding public
     key.
-
-    This uses phantom types to make [of_cstruct] and [to_cstruct] polymorphic in
-    the key type.
 *)
-type _ key
+type secret
 
-type priv
+(** Kind of errors. *)
+type error = [`Invalid_length]
 
-(** A private key. In elliptic curve terms, a scalar. *)
-type priv_key = priv key
+val pp_error : Format.formatter -> error -> unit
+(** Pretty printer for errors *)
 
-type pub
-
-(** A private key. In elliptic curve terms, a point. *)
-type pub_key = pub key
-
-val of_cstruct : Cstruct.t -> (_ key, string) result
-(** Convert a [Cstruct.t] into a key. Internally, this only checks that its
-    length is [key_length_bytes]. If that is not the case, returns an error
+val priv_key_of_cstruct : Cstruct.t -> (secret, error) result
+(** Convert a [Cstruct.t] into a private key. Internally, this only checks that
+    its length is [key_length_bytes]. If that is not the case, returns an error
     message. *)
 
-val to_cstruct : _ key -> Cstruct.t
-(** Return the [Cstruct.t] corresponding to a key. It is always
+val priv_key_to_cstruct : secret -> Cstruct.t
+(** Return the [Cstruct.t] corresponding to a private key. It is always
     [key_length_bytes] bytes long. *)
 
-val public : priv_key -> pub_key
+val public : secret -> Cstruct.t
 (** Compute the public part corresponding to a private key. Internally, this
     multiplies the curve's base point by the supplied scalar. *)
 
-val key_exchange : priv:priv_key -> pub:pub_key -> Cstruct.t
+val key_exchange : secret -> Cstruct.t -> (Cstruct.t, error) result
 (** Perform Diffie-Hellman key exchange between a private part and a public
     part.
+
+    It checks length of the [pub] key and returns an error if it has an
+    incorrect length.
 
     In DH terms, the private part corresponds to a scalar, and the public part
     corresponds to a point, and this computes the scalar multiplication.
@@ -66,8 +62,8 @@ val key_exchange : priv:priv_key -> pub:pub_key -> Cstruct.t
     secret without transmitting any private information.
 
     As described in {{: https://tools.ietf.org/html/rfc7748#section-6.1} RFC
-    7748, section 6.1}, if this function operates on an input corresponding to a
-    point with small order, it will return an all-zero value.
+    7748, section 6.1}, if this function operates on an input corresponding to
+    a point with small order, it will return an all-zero value.
 
     Whether this is an error case or not depends on the protocol. {{:
     https://tools.ietf.org/html/rfc8446#section-7.4.2} In the context of TLS

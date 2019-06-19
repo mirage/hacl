@@ -12,13 +12,13 @@ let of_ok = function
 let random_private_key () =
   crypto_random_bytes 32
   |> Cstruct.of_string
-  |> Hacl_x25519.of_cstruct
+  |> Hacl_x25519.priv_key_of_cstruct
   |> of_ok
 
 let bench_dh () =
   let priv = random_private_key () in
   let pub = Hacl_x25519.public @@ random_private_key () in
-  let run () : Cstruct.t = Hacl_x25519.key_exchange ~priv ~pub in
+  let run () : (Cstruct.t, _) result = Hacl_x25519.key_exchange priv pub in
   Benchmark.throughputN 1 [("X25519", run, ())]
 
 let () =
