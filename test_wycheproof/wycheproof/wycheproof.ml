@@ -1,6 +1,6 @@
 [@@@ocaml.warning "-39"]
 
-type json = Yojson.Safe.json [@@deriving of_yojson]
+type json = Yojson.Safe.t [@@deriving of_yojson]
 
 let pp_json = Yojson.Safe.pretty_print
 
