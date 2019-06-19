@@ -5,3 +5,7 @@
 (alias
  (name bench)
  (action (run ./bench.exe --all)))
+
+(alias
+ (name runtest)
+ (deps ./bench.exe))
