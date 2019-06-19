@@ -28,7 +28,9 @@ val key_length_bytes : int
 type secret
 
 (** Kind of errors. *)
-type error = [`Invalid_length]
+type error =
+  [ `Invalid_length
+  | `Low_order ]
 
 val pp_error : Format.formatter -> error -> unit
 (** Pretty printer for errors *)
@@ -62,12 +64,8 @@ val key_exchange : secret -> Cstruct.t -> (Cstruct.t, error) result
     secret without transmitting any private information.
 
     As described in {{: https://tools.ietf.org/html/rfc7748#section-6.1} RFC
-    7748, section 6.1}, if this function operates on an input corresponding to
-    a point with small order, it will return an all-zero value.
-
-    Whether this is an error case or not depends on the protocol. {{:
-    https://tools.ietf.org/html/rfc8446#section-7.4.2} In the context of TLS
-    1.3}, "implementations MUST check whether the computed Diffie-Hellman shared
-    secret is the all-zero value and abort if so". This should be done in
-    constant time, for example by using the {{: https://github.com/mirage/eqaf/}
-    eqaf} library. *)
+    7748, section 6.1}, if this function operates on an input corresponding to a
+    point with small order, it internally generates an all-zero value. If this
+    is the case [Error `Low_order] will be returned instead. {{:
+    https://tools.ietf.org/html/rfc8446#section-7.4.2} This check is necessary
+    in the context of TLS 1.3}, but might not in other protocols. *)

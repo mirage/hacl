@@ -22,7 +22,7 @@ let too_short = Cstruct.create 31
 let too_long = Cstruct.create 33
 
 (** Test private-to-public conversion and key exchange.
-    Data comes from RFC7748 6.1. *)
+    Data comes from RFC7748 6.1 and Wycheproof. *)
 let run_tests () =
   let alice_private =
     priv_key_of_hex
@@ -41,6 +41,17 @@ let run_tests () =
   let bob_public = Hacl_x25519.public bob_private in
   Format.printf "bob_public:@.%a" Cstruct.hexdump_pp bob_public;
   test ~name:"pub_a * priv_b" ~pub:alice_public ~priv:bob_private;
-  test ~name:"pub_b * priv_a" ~pub:bob_public ~priv:alice_private
+  test ~name:"pub_b * priv_a" ~pub:bob_public ~priv:alice_private;
+  let low_order_pub =
+    Cstruct.of_hex
+      {| e0eb7a7c3b41b8ae1656e3faf19fc46a
+         da098deb9c32b1fd866205165f49b800 |}
+  in
+  let low_order_priv =
+    priv_key_of_hex
+      {| 10255c9230a97a30a458ca284a629669
+         293a31890cda9d147febc7d1e22d6bb1 |}
+  in
+  test ~name:"low order point" ~pub:low_order_pub ~priv:low_order_priv
 
 let () = run_tests ()

@@ -16,13 +16,19 @@ let priv_of_string s =
   Hacl_x25519.priv_key_of_cstruct (Cstruct.of_string s) |> get_ok
 
 let key_exchange ~priv ~pub =
-  Hacl_x25519.key_exchange (priv_of_string priv) (Cstruct.of_string pub)
-  |> get_ok
-  |> Cstruct.to_string
+  match
+    Hacl_x25519.key_exchange (priv_of_string priv) (Cstruct.of_string pub)
+  with
+  | Ok cs ->
+      Ok (Cstruct.to_string cs)
+  | Error `Low_order ->
+      Ok (String.make 32 '\x00')
+  | Error _ as e ->
+      e
 
 let run_test {tcId; comment; private_; public; shared = expected; _} =
   let name = Printf.sprintf "%d - %s" tcId comment in
-  let got = key_exchange ~priv:private_ ~pub:public in
+  let got = get_ok (key_exchange ~priv:private_ ~pub:public) in
   check Wycheproof.pp_hex Wycheproof.equal_hex name expected got
 
 let () =

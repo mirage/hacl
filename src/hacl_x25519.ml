@@ -1,17 +1,23 @@
 let key_length_bytes = 32
 
-let ( >>| ) r f =
+let ( >>= ) r f =
   match r with
   | Ok x ->
-      Ok (f x)
+      f x
   | Error _ as e ->
       e
 
-type error = [`Invalid_length]
+let ( >>| ) r f = r >>= fun x -> Ok (f x)
+
+type error =
+  [ `Invalid_length
+  | `Low_order ]
 
 let pp_error ppf = function
   | `Invalid_length ->
       Format.fprintf ppf "Invalid key size"
+  | `Low_order ->
+      Format.fprintf ppf "Public key with low order"
 
 type secret = [`Checked of Cstruct.t]
 
@@ -37,10 +43,18 @@ let key_exchange_buffer ~priv ~checked_pub =
   scalarmult_raw (checked_buffer result) (checked_buffer priv) checked_pub;
   cs
 
+let all_zeroes = String.make key_length_bytes '\x00'
+
+let is_zero_output cs =
+  let s = Cstruct.to_string cs in
+  Eqaf.equal s all_zeroes
+
 let key_exchange priv pub =
   of_cstruct pub
   >>| checked_buffer
-  >>| fun checked_pub -> key_exchange_buffer ~priv ~checked_pub
+  >>= fun checked_pub ->
+  let shared = key_exchange_buffer ~priv ~checked_pub in
+  if is_zero_output shared then Error `Low_order else Ok shared
 
 let basepoint =
   let cs = Cstruct.create key_length_bytes in
