@@ -11,7 +11,7 @@ let get_ok = function
       assert false
 
 let test ~name ~pub ~priv =
-  let result = Hacl_x25519.key_exchange ~pub ~priv in
+  let result = Hacl_x25519.key_exchange priv pub in
   Format.printf "%s:@,%a@," name pp_result result
 
 let priv_key_of_hex s =

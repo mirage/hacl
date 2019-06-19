@@ -25,7 +25,7 @@ val key_length_bytes : int
     - call [public] on the private key. This returns the corresponding public
     key.
 *)
-type priv_key
+type secret
 
 (** Kind of errors. *)
 type error = [`Invalid_length]
@@ -33,20 +33,20 @@ type error = [`Invalid_length]
 val pp_error : Format.formatter -> error -> unit
 (** Pretty printer for errors *)
 
-val priv_key_of_cstruct : Cstruct.t -> (priv_key, error) result
+val priv_key_of_cstruct : Cstruct.t -> (secret, error) result
 (** Convert a [Cstruct.t] into a private key. Internally, this only checks that
     its length is [key_length_bytes]. If that is not the case, returns an error
     message. *)
 
-val priv_key_to_cstruct : priv_key -> Cstruct.t
+val priv_key_to_cstruct : secret -> Cstruct.t
 (** Return the [Cstruct.t] corresponding to a private key. It is always
     [key_length_bytes] bytes long. *)
 
-val public : priv_key -> Cstruct.t
+val public : secret -> Cstruct.t
 (** Compute the public part corresponding to a private key. Internally, this
     multiplies the curve's base point by the supplied scalar. *)
 
-val key_exchange : priv:priv_key -> pub:Cstruct.t -> (Cstruct.t, error) result
+val key_exchange : secret -> Cstruct.t -> (Cstruct.t, error) result
 (** Perform Diffie-Hellman key exchange between a private part and a public
     part.
 

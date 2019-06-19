@@ -18,7 +18,7 @@ let random_private_key () =
 let bench_dh () =
   let priv = random_private_key () in
   let pub = Hacl_x25519.public @@ random_private_key () in
-  let run () : (Cstruct.t, _) result = Hacl_x25519.key_exchange ~priv ~pub in
+  let run () : (Cstruct.t, _) result = Hacl_x25519.key_exchange priv pub in
   Benchmark.throughputN 1 [("X25519", run, ())]
 
 let () =

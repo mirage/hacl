@@ -16,8 +16,7 @@ let priv_of_string s =
   Hacl_x25519.priv_key_of_cstruct (Cstruct.of_string s) |> get_ok
 
 let key_exchange ~priv ~pub =
-  Hacl_x25519.key_exchange ~priv:(priv_of_string priv)
-    ~pub:(Cstruct.of_string pub)
+  Hacl_x25519.key_exchange (priv_of_string priv) (Cstruct.of_string pub)
   |> get_ok
   |> Cstruct.to_string
 

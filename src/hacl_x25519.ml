@@ -13,7 +13,7 @@ let pp_error ppf = function
   | `Invalid_length ->
       Format.fprintf ppf "Invalid key size"
 
-type priv_key = [`Checked of Cstruct.t]
+type secret = [`Checked of Cstruct.t]
 
 let of_cstruct cs =
   if Cstruct.len cs = key_length_bytes then Ok (`Checked cs)
@@ -37,7 +37,7 @@ let key_exchange_buffer ~priv ~checked_pub =
   scalarmult_raw (checked_buffer result) (checked_buffer priv) checked_pub;
   cs
 
-let key_exchange ~priv ~pub =
+let key_exchange priv pub =
   of_cstruct pub
   >>| checked_buffer
   >>| fun checked_pub -> key_exchange_buffer ~priv ~checked_pub
