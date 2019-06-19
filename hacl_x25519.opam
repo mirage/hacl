@@ -18,7 +18,7 @@ depends: [
   "dune" {build & >= "1.4.0"}
   "cstruct" {>= "3.5.0"}
   "ppx_deriving_yojson" {with-test}
-  "yojson" {with-test}
+  "yojson" {with-test & >= "1.6.0"}
   "hex" {with-test}
   "ppx_blob" {with-test}
 ]
