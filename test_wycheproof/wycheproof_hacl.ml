@@ -12,8 +12,9 @@ let get_ok = function
   | Error _ ->
       assert false
 
-let priv_of_string s =
-  Hacl_x25519.priv_key_of_cstruct (Cstruct.of_string s) |> get_ok
+let key_pair_of_cstruct data = Hacl_x25519.gen_key ~rng:(fun _ -> data)
+
+let priv_of_string s = key_pair_of_cstruct (Cstruct.of_string s) |> fst
 
 let key_exchange ~priv ~pub =
   match

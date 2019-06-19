@@ -21,13 +21,9 @@ let pp_error ppf = function
 
 type secret = [`Checked of Cstruct.t]
 
-let of_cstruct cs =
+let key_of_cstruct cs =
   if Cstruct.len cs = key_length_bytes then Ok (`Checked cs)
   else Error `Invalid_length
-
-let priv_key_of_cstruct = of_cstruct
-
-let priv_key_to_cstruct (`Checked cs) = cs
 
 (* pk -> sk -> basepoint -> unit *)
 external scalarmult_raw :
@@ -50,7 +46,7 @@ let is_zero_output cs =
   Eqaf.equal s all_zeroes
 
 let key_exchange priv pub =
-  of_cstruct pub
+  key_of_cstruct pub
   >>| checked_buffer
   >>= fun checked_pub ->
   let shared = key_exchange_buffer ~priv ~checked_pub in
@@ -65,12 +61,11 @@ let public priv = key_exchange_buffer ~priv ~checked_pub:basepoint
 let gen_key ~rng =
   let secret_cstruct = rng key_length_bytes in
   let secret =
-    match priv_key_of_cstruct secret_cstruct with
+    match key_of_cstruct secret_cstruct with
     | Ok k ->
         k
     | Error `Invalid_length ->
-        failwith
-          "Hacl_x25519.gen_key: generator returned an invalid length"
+        failwith "Hacl_x25519.gen_key: generator returned an invalid length"
   in
   let pub_key = public secret in
   (secret, pub_key)

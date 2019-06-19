@@ -14,14 +14,18 @@
     use this in the context of TLS 1.3.
 *)
 
-val key_length_bytes : int
-(** The length of public and private keys, in bytes. Equal to 32. *)
-
-(** A private key. In elliptic curve terms, a scalar.
+(** Key material. In elliptic curve terms, a scalar.
 
     To generate a key pair, use [gen_key].
 *)
 type secret
+
+val gen_key : rng:(int -> Cstruct.t) -> secret * Cstruct.t
+(** Generate a key pair. [rng] should return a [Cstruct.t] with the specified
+    key length (in bytes) and fill it with random bytes.
+
+    If the cstruct returned by [rng] does not have the correct length, raises
+    [Failure _]. *)
 
 (** Kind of errors. *)
 type error =
@@ -30,26 +34,6 @@ type error =
 
 val pp_error : Format.formatter -> error -> unit
 (** Pretty printer for errors *)
-
-val gen_key : rng:(int -> Cstruct.t) -> secret * Cstruct.t
-(** Generate a key pair. [rng] is a generic [Cstruct.t] allocator that takes a
-    key length as argument.
-
-    If the allocator does not return a cstruct with the correct length, raises
-    [Failure _]. *)
-
-val priv_key_of_cstruct : Cstruct.t -> (secret, error) result
-(** Convert a [Cstruct.t] into a private key. Internally, this only checks that
-    its length is [key_length_bytes]. If that is not the case, returns an error
-    message. *)
-
-val priv_key_to_cstruct : secret -> Cstruct.t
-(** Return the [Cstruct.t] corresponding to a private key. It is always
-    [key_length_bytes] bytes long. *)
-
-val public : secret -> Cstruct.t
-(** Compute the public part corresponding to a private key. Internally, this
-    multiplies the curve's base point by the supplied scalar. *)
 
 val key_exchange : secret -> Cstruct.t -> (Cstruct.t, error) result
 (** Perform Diffie-Hellman key exchange between a private part and a public
@@ -61,14 +45,10 @@ val key_exchange : secret -> Cstruct.t -> (Cstruct.t, error) result
     In DH terms, the private part corresponds to a scalar, and the public part
     corresponds to a point, and this computes the scalar multiplication.
 
-    The following holds: [key_exchange ~pub:(public a) ~priv:b] is equal to
-    [key_exchange ~pub:(public b) ~priv:a]. That is to say, two parties can
-    generate key pairs, transmit the public parts, and compute on a shared
-    secret without transmitting any private information.
+    The resulting shared secret is not truncated.
 
     As described in {{: https://tools.ietf.org/html/rfc7748#section-6.1} RFC
-    7748, section 6.1}, if this function operates on an input corresponding to a
-    point with small order, it internally generates an all-zero value. If this
-    is the case [Error `Low_order] will be returned instead. {{:
+    7748, section 6.1}, this function might internally generate an all-zero
+    value. If this is the case [Error `Low_order] will be returned instead. {{:
     https://tools.ietf.org/html/rfc8446#section-7.4.2} This check is necessary
     in the context of TLS 1.3}, but might not in other protocols. *)
