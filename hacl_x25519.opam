@@ -21,6 +21,7 @@ depends: [
   "yojson" {with-test & >= "1.6.0"}
   "hex" {with-test}
   "ppx_blob" {with-test}
+  "benchmark" {with-test}
 ]
 synopsis: "Primitives for Elliptic Curve Cryptography taken from Project Everest"
 description: """
