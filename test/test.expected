@@ -15,6 +15,8 @@ e0 7e 21 c9 47 d1 9e 33  76 f0 9b 3c 1e 16 17 42
 pub_b * priv_a:
 4a 5d 9d 5b a4 ce 2d e1  72 8e 3b f4 80 35 0f 25
 e0 7e 21 c9 47 d1 9e 33  76 f0 9b 3c 1e 16 17 42
+pub = 0:
+error: Public key with low order
 low order point:
 error: Public key with low order
 
