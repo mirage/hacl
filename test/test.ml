@@ -1,8 +1,6 @@
 let pp_result ppf = function
-  | Ok result ->
-      Cstruct.hexdump_pp ppf result
-  | Error e ->
-      Format.fprintf ppf "error: %a@." Hacl_x25519.pp_error e
+  | Ok result -> Cstruct.hexdump_pp ppf result
+  | Error e -> Format.fprintf ppf "error: %a@." Hacl_x25519.pp_error e
 
 let test ~name ~pub ~priv =
   let result = Hacl_x25519.key_exchange priv pub in
