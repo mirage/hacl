@@ -14,11 +14,11 @@
     use this in the context of TLS 1.3.
 *)
 
+type secret
 (** Key material. In elliptic curve terms, a scalar.
 
     To generate a key pair, use [gen_key].
 *)
-type secret
 
 val gen_key : rng:(int -> Cstruct.t) -> secret * Cstruct.t
 (** Generate a key pair. [rng] should return a [Cstruct.t] with the specified
@@ -27,10 +27,8 @@ val gen_key : rng:(int -> Cstruct.t) -> secret * Cstruct.t
     If the cstruct returned by [rng] does not have the correct length, raises
     [Failure _]. *)
 
+type error = [ `Invalid_length | `Low_order ]
 (** Kind of errors. *)
-type error =
-  [ `Invalid_length
-  | `Low_order ]
 
 val pp_error : Format.formatter -> error -> unit
 (** Pretty printer for errors *)
