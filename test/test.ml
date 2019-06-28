@@ -35,6 +35,8 @@ let run_tests () =
   Format.printf "bob_public:@.%a" Cstruct.hexdump_pp bob_public;
   test ~name:"pub_a * priv_b" ~pub:alice_public ~priv:bob_private;
   test ~name:"pub_b * priv_a" ~pub:bob_public ~priv:alice_private;
+  let zeroes = Cstruct.create 32 in
+  test ~name:"pub = 0" ~pub:zeroes ~priv:alice_private;
   let low_order_pub =
     Cstruct.of_hex
       {| e0eb7a7c3b41b8ae1656e3faf19fc46a
