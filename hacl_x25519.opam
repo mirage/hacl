@@ -24,6 +24,7 @@ depends: [
   "hex" {with-test}
   "ppx_blob" {with-test}
   "benchmark" {with-test}
+  "stdlib-shims" {with-test}
 ]
 synopsis: "Primitives for Elliptic Curve Cryptography taken from Project Everest"
 description: """
