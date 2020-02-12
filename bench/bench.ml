@@ -1,6 +1,6 @@
 let read_urandom n =
-  let ic = Pervasives.open_in_bin "/dev/urandom" in
-  let s = Pervasives.really_input_string ic n in
+  let ic = Stdlib.open_in_bin "/dev/urandom" in
+  let s = Stdlib.really_input_string ic n in
   close_in ic;
   Cstruct.of_string s
 

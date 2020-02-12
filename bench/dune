@@ -1,6 +1,6 @@
 (executable
  (name bench)
- (libraries hacl_x25519 benchmark))
+ (libraries hacl_x25519 benchmark stdlib-shims))
 
 (alias
  (name bench)
