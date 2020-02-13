@@ -18,6 +18,13 @@ type secret
 (** Key material. In elliptic curve terms, a scalar.
 
     To generate a key pair, use [gen_key].
+
+    In the usual setting, the private key only be generated and used for key
+    exchange. But it can be useful to create values of type [secret] with a
+    known value, for example to check against test vectors.
+    One can use the following pattern to do this:
+
+    {[ let (secret, _) = gen_key ~rng:(fun _ -> known_data) ]}
 *)
 
 val gen_key : rng:(int -> Cstruct.t) -> secret * Cstruct.t
