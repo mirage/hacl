@@ -442,6 +442,9 @@ inline static int64_t FStar_UInt64_v(int64_t x) { return x; }
 #ifndef KRML_NOUINT128
 typedef unsigned __int128 FStar_UInt128_t, FStar_UInt128_t_, uint128_t;
 
+#ifndef PRIu64
+#define PRIu64 "lu"
+#endif
 static inline void print128(const char *where, uint128_t n) {
   KRML_HOST_PRINTF("%s: [%" PRIu64 ",%" PRIu64 "]\n", where,
                    (uint64_t)(n >> 64), (uint64_t)n);

@@ -36,3 +36,11 @@ depends: [
   "stdlib-shims" {with-test}
   "yojson" {with-test & >= "1.6.0"}
 ]
+depopts: [
+  "mirage-xen-posix"
+  "ocaml-freestanding"
+]
+conflicts: [
+  "mirage-xen" {< "3.1.0"}
+  "ocaml-freestanding" {< "0.4.1"}
+]
