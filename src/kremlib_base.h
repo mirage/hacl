@@ -23,7 +23,7 @@
 #ifndef __KREMLIB_BASE_H
 #define __KREMLIB_BASE_H
 
-#include <inttypes.h>
+#include <stdint.h>
 #include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
