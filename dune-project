@@ -22,6 +22,10 @@
   (ppx_deriving_yojson :with-test)
   (stdlib-shims :with-test)
   (yojson (and :with-test (>= 1.6.0))))
+ (depopts mirage-xen-posix ocaml-freestanding)
+ (conflicts
+  (mirage-xen-posix (< 3.1.0))
+  (ocaml-freestanding (< 0.6.0)))
  (synopsis "Primitives for Elliptic Curve Cryptography taken from Project Everest")
  (description
    "\> This is an implementation of the X25519 key exchange algorithm, using code from
