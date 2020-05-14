@@ -15,9 +15,10 @@
  (public_name hacl_x25519.freestanding)
  (optional)
  (libraries ocaml-freestanding)
- (c_flags
-  (:include cflags-freestanding.sexp))
- (c_names hacl_x25519_stubs Hacl_Curve25519))
+ (foreign_stubs
+  (language c)
+  (flags (:include cflags-freestanding.sexp))
+  (names hacl_x25519_stubs Hacl_Curve25519)))
 
 (rule
  (with-stdout-to
