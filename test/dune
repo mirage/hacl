@@ -1,3 +1,9 @@
 (test
  (name test)
+ (modules test)
  (libraries hacl_x25519 hex))
+
+(test
+ (name rfc8032)
+ (modules rfc8032)
+ (libraries hacl_x25519 alcotest))
