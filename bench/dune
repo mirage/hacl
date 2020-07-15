@@ -10,4 +10,5 @@
 (rule
  (alias runtest)
  (deps ./bench.exe)
- (action (run ./bench.exe)))
+ (action
+  (run ./bench.exe)))
