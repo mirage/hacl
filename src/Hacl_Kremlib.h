@@ -28,23 +28,46 @@
 #include <string.h>
 #include "kremlin/internal/target.h"
 
-#ifndef __Hacl_Ed25519_H
-#define __Hacl_Ed25519_H
-
-#include "Hacl_Kremlib.h"
-#include "Hacl_Hash.h"
-#include "Hacl_Curve25519_51.h"
+#ifndef __Hacl_Kremlib_H
+#define __Hacl_Kremlib_H
 
 
-void Hacl_Ed25519_sign(uint8_t *signature, uint8_t *priv, uint32_t len, uint8_t *msg);
 
-bool Hacl_Ed25519_verify(uint8_t *pub, uint32_t len, uint8_t *msg, uint8_t *signature);
 
-void Hacl_Ed25519_secret_to_public(uint8_t *pub, uint8_t *priv);
+static inline uint8_t FStar_UInt8_eq_mask(uint8_t a, uint8_t b);
 
-void Hacl_Ed25519_expand_keys(uint8_t *ks, uint8_t *priv);
+static inline uint64_t FStar_UInt64_eq_mask(uint64_t a, uint64_t b);
 
-void Hacl_Ed25519_sign_expanded(uint8_t *signature, uint8_t *ks, uint32_t len, uint8_t *msg);
+static inline uint64_t FStar_UInt64_gte_mask(uint64_t a, uint64_t b);
 
-#define __Hacl_Ed25519_H_DEFINED
+static inline FStar_UInt128_uint128
+FStar_UInt128_add(FStar_UInt128_uint128 a, FStar_UInt128_uint128 b);
+
+static inline FStar_UInt128_uint128
+FStar_UInt128_add_mod(FStar_UInt128_uint128 a, FStar_UInt128_uint128 b);
+
+static inline FStar_UInt128_uint128
+FStar_UInt128_logor(FStar_UInt128_uint128 a, FStar_UInt128_uint128 b);
+
+static inline FStar_UInt128_uint128
+FStar_UInt128_shift_left(FStar_UInt128_uint128 a, uint32_t s);
+
+static inline FStar_UInt128_uint128
+FStar_UInt128_shift_right(FStar_UInt128_uint128 a, uint32_t s);
+
+static inline FStar_UInt128_uint128 FStar_UInt128_uint64_to_uint128(uint64_t a);
+
+static inline uint64_t FStar_UInt128_uint128_to_uint64(FStar_UInt128_uint128 a);
+
+static inline FStar_UInt128_uint128 FStar_UInt128_mul_wide(uint64_t x, uint64_t y);
+
+static inline void store128_le(uint8_t *x0, FStar_UInt128_uint128 x1);
+
+static inline void store128_be(uint8_t *x0, FStar_UInt128_uint128 x1);
+
+static inline FStar_UInt128_uint128 load128_be(uint8_t *x0);
+
+uint32_t LowStar_Vector_new_capacity(uint32_t cap);
+
+#define __Hacl_Kremlib_H_DEFINED
 #endif

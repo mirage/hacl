@@ -28,23 +28,48 @@
 #include <string.h>
 #include "kremlin/internal/target.h"
 
-#ifndef __Hacl_Ed25519_H
-#define __Hacl_Ed25519_H
+#ifndef __Hacl_Curve25519_51_H
+#define __Hacl_Curve25519_51_H
 
 #include "Hacl_Kremlib.h"
-#include "Hacl_Hash.h"
-#include "Hacl_Curve25519_51.h"
 
 
-void Hacl_Ed25519_sign(uint8_t *signature, uint8_t *priv, uint32_t len, uint8_t *msg);
+void Hacl_Impl_Curve25519_Field51_fadd(uint64_t *out, uint64_t *f1, uint64_t *f2);
 
-bool Hacl_Ed25519_verify(uint8_t *pub, uint32_t len, uint8_t *msg, uint8_t *signature);
+void Hacl_Impl_Curve25519_Field51_fsub(uint64_t *out, uint64_t *f1, uint64_t *f2);
 
-void Hacl_Ed25519_secret_to_public(uint8_t *pub, uint8_t *priv);
+void
+Hacl_Impl_Curve25519_Field51_fmul(
+  uint64_t *out,
+  uint64_t *f1,
+  uint64_t *f2,
+  FStar_UInt128_uint128 *uu____1344
+);
 
-void Hacl_Ed25519_expand_keys(uint8_t *ks, uint8_t *priv);
+void Hacl_Impl_Curve25519_Field51_fmul1(uint64_t *out, uint64_t *f1, uint64_t f2);
 
-void Hacl_Ed25519_sign_expanded(uint8_t *signature, uint8_t *ks, uint32_t len, uint8_t *msg);
+void
+Hacl_Impl_Curve25519_Field51_fsqr(
+  uint64_t *out,
+  uint64_t *f,
+  FStar_UInt128_uint128 *uu____3296
+);
 
-#define __Hacl_Ed25519_H_DEFINED
+void
+Hacl_Curve25519_51_fsquare_times(
+  uint64_t *o,
+  uint64_t *inp,
+  FStar_UInt128_uint128 *tmp,
+  uint32_t n
+);
+
+void Hacl_Curve25519_51_finv(uint64_t *o, uint64_t *i, FStar_UInt128_uint128 *tmp);
+
+void Hacl_Curve25519_51_scalarmult(uint8_t *out, uint8_t *priv, uint8_t *pub);
+
+void Hacl_Curve25519_51_secret_to_public(uint8_t *pub, uint8_t *priv);
+
+bool Hacl_Curve25519_51_ecdh(uint8_t *out, uint8_t *priv, uint8_t *pub);
+
+#define __Hacl_Curve25519_51_H_DEFINED
 #endif
