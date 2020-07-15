@@ -4,6 +4,10 @@
 
 (copy_files# ../src/Hacl_Curve25519.h)
 
+(copy_files# ../src/Hacl_Ed25519.c)
+
+(copy_files# ../src/Hacl_Ed25519.h)
+
 (copy_files# ../src/FStar.h)
 
 (copy_files# ../src/kremlib_base.h)
@@ -17,7 +21,7 @@
  (libraries ocaml-freestanding)
  (c_flags
   (:include cflags-freestanding.sexp))
- (c_names hacl_x25519_stubs Hacl_Curve25519))
+ (c_names hacl_x25519_stubs Hacl_Curve25519 Hacl_Ed25519))
 
 (rule
  (with-stdout-to

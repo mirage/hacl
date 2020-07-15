@@ -35,6 +35,7 @@ depends: [
   "ppx_deriving_yojson" {with-test}
   "stdlib-shims" {with-test}
   "yojson" {with-test & >= "1.6.0"}
+  "alcotest" {with-test}
 ]
 conflicts: [
   "mirage-xen-posix" {< "3.1.0"}
