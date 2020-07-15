@@ -16,6 +16,7 @@
   (dune (>= 1.10.0))
   eqaf
   (hex :with-test)
+  (alcotest :with-test)
   ocaml
   (ppx_blob :with-test)
   (ppx_deriving_yojson :with-test)
