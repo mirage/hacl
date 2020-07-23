@@ -28,23 +28,31 @@
 #include <string.h>
 #include "kremlin/internal/target.h"
 
-#ifndef __Hacl_Ed25519_H
-#define __Hacl_Ed25519_H
+#ifndef __Hacl_Hash_H
+#define __Hacl_Hash_H
 
 #include "Hacl_Kremlib.h"
-#include "Hacl_Hash.h"
-#include "Hacl_Curve25519_51.h"
+#include "Hacl_Spec.h"
 
+void Hacl_Hash_SHA2_update_multi_512(uint64_t *s, uint8_t *blocks, uint32_t n_blocks);
 
-void Hacl_Ed25519_sign(uint8_t *signature, uint8_t *priv, uint32_t len, uint8_t *msg);
+void
+Hacl_Hash_SHA2_update_last_512(
+  uint64_t *s,
+  FStar_UInt128_uint128 prev_len,
+  uint8_t *input,
+  uint32_t input_len
+);
 
-bool Hacl_Ed25519_verify(uint8_t *pub, uint32_t len, uint8_t *msg, uint8_t *signature);
+void Hacl_Hash_SHA2_hash_512(uint8_t *input, uint32_t input_len, uint8_t *dst);
 
-void Hacl_Ed25519_secret_to_public(uint8_t *pub, uint8_t *priv);
+void Hacl_Hash_Core_SHA2_init_512(uint64_t *s);
 
-void Hacl_Ed25519_expand_keys(uint8_t *ks, uint8_t *priv);
+void Hacl_Hash_Core_SHA2_update_512(uint64_t *hash, uint8_t *block);
 
-void Hacl_Ed25519_sign_expanded(uint8_t *signature, uint8_t *ks, uint32_t len, uint8_t *msg);
+void Hacl_Hash_Core_SHA2_pad_512(FStar_UInt128_uint128 len, uint8_t *dst);
 
-#define __Hacl_Ed25519_H_DEFINED
+void Hacl_Hash_Core_SHA2_finish_512(uint64_t *s, uint8_t *dst);
+
+#define __Hacl_Hash_H_DEFINED
 #endif

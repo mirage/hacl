@@ -1,6 +1,5 @@
-(lang dune 1.10)
+(lang dune 2.0)
 (name hacl_x25519)
-(using fmt 1.1)
 (generate_opam_files true)
 (source (github mirage/hacl))
 (documentation https://mirage.github.io/hacl/doc)
@@ -17,6 +16,7 @@
   (dune (>= 1.10.0))
   eqaf
   (hex :with-test)
+  (alcotest :with-test)
   ocaml
   (ppx_blob :with-test)
   (ppx_deriving_yojson :with-test)
