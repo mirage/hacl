@@ -8,6 +8,9 @@ val priv : Cstruct.t -> priv
 
     @raise Invalid_argument if [p] is not 32 bytes. *)
 
+val encode_priv : priv -> Cstruct.t
+(** [encode_priv p] is the private key encoded into a buffer. *)
+
 val priv_to_public : priv -> Cstruct.t
 (** [priv_to_public p] outputs the public key of [p]. *)
 

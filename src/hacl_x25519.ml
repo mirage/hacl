@@ -60,3 +60,5 @@ let gen_key ~rng =
   in
   let pub_key = public secret in
   (secret, pub_key)
+
+let encode_secret (`Checked cs) = cs
