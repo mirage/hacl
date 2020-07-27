@@ -8,6 +8,8 @@ let priv cs =
   if Cstruct.len cs = key_length_bytes then `Checked cs
   else invalid_arg "Invalid length"
 
+let encode_priv (`Checked cs) = cs
+
 external s_to_p : Cstruct.buffer -> Cstruct.buffer -> unit
   = "ml_Hacl_Ed25519_secret_to_public"
   [@@noalloc]
