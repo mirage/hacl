@@ -1,8 +1,18 @@
-(test
+(executable
  (name test)
- (package hacl_x25519)
  (modules test)
  (libraries hacl_x25519 hex))
+
+(rule
+ (with-stdout-to
+  test.output
+  (run ./test.exe)))
+
+(rule
+ (alias runtest)
+ (package hacl_x25519)
+ (action
+  (diff test.expected test.output)))
 
 (test
  (name rfc8032)
