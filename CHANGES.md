@@ -1,3 +1,9 @@
+## v0.2.0 (2020-07-28)
+
+- interface and expose Ed25519 code in the Hacl_ed25519 module (#35 @hannesm)
+- update C code to hacl-star-raw 0.2.1, adds 32 bit support (#36 @dinosaure)
+- provide Hacl_x25519.encode_secret and Hacl_ed25519.encode_priv (#41 @hannesm)
+
 ## v0.1.1 (2020-05-09)
 
 - adapt opam file from opam-repository (add ocaml dependency) #24, @hannesm
