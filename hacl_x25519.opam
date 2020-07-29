@@ -18,9 +18,9 @@ homepage: "https://github.com/mirage/hacl"
 doc: "https://mirage.github.io/hacl/doc"
 bug-reports: "https://github.com/mirage/hacl/issues"
 depends: [
+  "dune" {>= "2.0"}
   "benchmark" {with-test}
   "cstruct" {>= "3.5.0"}
-  "dune" {>= "1.10.0"}
   "eqaf"
   "hex" {with-test}
   "alcotest" {with-test}
