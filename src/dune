@@ -1,8 +1,9 @@
 (library
  (public_name hacl_x25519)
- (modules hacl_x25519)
+ (modules hacl_x25519 hacl_ed25519)
  (libraries cstruct eqaf)
- (foreign_archives hacl_x25519_mirage))
+ (foreign_archives hacl_x25519_mirage)
+ (wrapped false))
 
 (rule
  (targets libhacl_x25519_mirage.a)
@@ -20,7 +21,7 @@
  (targets symbols.txt)
  (deps
   symbols.ml
-  (:o Hacl_Curve25519.o))
+  (:o Hacl_Curve25519_51.o Hacl_Ed25519.o Hacl_Hash.o))
  (action
   (run ./symbols.ml %{o} %{targets})))
 
@@ -29,4 +30,7 @@
  (modules none)
  (foreign_stubs
   (language c)
-  (names hacl_x25519_stubs Hacl_Curve25519)))
+  (names hacl_x25519_stubs Hacl_Hash Hacl_Curve25519_51 Hacl_Ed25519)
+  (flags
+   (:standard -I . -I kremlin/include -I kremlin/kremlib/dist/minimal))
+  (include_dirs kremlin)))

@@ -44,8 +44,11 @@ let generate ~prefix symbols output =
   close_out oc
 
 let () =
-  match Sys.argv with
-  | [| _; obj; output |] ->
-      let symbols = symbols obj in
-      generate ~prefix:"mirage__" symbols output
-  | _ -> Format.eprintf "%s <filename.o> <symbols.txt>" Sys.argv.(0)
+  if Array.length Sys.argv < 3
+  then Format.eprintf "%s <filename.o>... <symbols.txt>" Sys.argv.(0)
+  else
+    let objs = Array.sub Sys.argv 1 (Array.length Sys.argv - 2) in
+    let objs = Array.to_list objs in
+    let output = Sys.argv.(Array.length Sys.argv - 1) in
+    let symbols = List.concat (List.map symbols objs) in
+    generate ~prefix:"mirage__" symbols output

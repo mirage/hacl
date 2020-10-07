@@ -34,6 +34,9 @@ val gen_key : rng:(int -> Cstruct.t) -> secret * Cstruct.t
     If the cstruct returned by [rng] does not have the correct length, raises
     [Failure _]. *)
 
+val encode_secret : secret -> Cstruct.t
+(** [encode_secret secret] is the secret encoded into a buffer. *)
+
 type error = [ `Invalid_length | `Low_order ]
 (** Kind of errors. *)
 
