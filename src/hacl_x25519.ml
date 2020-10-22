@@ -2,9 +2,7 @@ let key_length_bytes = 32
 
 let ( >>= ) r f = match r with Ok x -> f x | Error _ as e -> e
 
-let ( >>| ) r f =
-  r >>= fun x ->
-  Ok (f x)
+let ( >>| ) r f = r >>= fun x -> Ok (f x)
 
 type error = [ `Invalid_length | `Low_order ]
 

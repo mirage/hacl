@@ -3,8 +3,7 @@ let cs = Alcotest.testable Cstruct.hexdump_pp Cstruct.equal
 let test secret public msg signature () =
   Alcotest.(
     check cs "public key is ok" public (Hacl_ed25519.priv_to_public secret));
-  Alcotest.(
-    check cs "signature is ok" signature (Hacl_ed25519.sign secret msg));
+  Alcotest.(check cs "signature is ok" signature (Hacl_ed25519.sign secret msg));
   Alcotest.(
     check bool "verify is ok" true
       (Hacl_ed25519.verify ~pub:public ~msg ~signature))
@@ -17,7 +16,8 @@ let tests =
     and si = Cstruct.of_hex signature in
     ("RFC 8032 " ^ string_of_int i, `Quick, test s p m si)
   in
-  [ case 1
+  [
+    case 1
       ~secret:
         "9d61b19deffd5a60ba844af492ec2cc4 4449c5697b326919703bac031cae7f60"
       ~public:
@@ -153,7 +153,7 @@ let tests =
    201009a3efbf3ecb69bea2186c26b589
    09351fc9ac90b3ecfdfbc7c66431e030
    3dca179c138ac17ad9bef1177331a704
-     |}
+     |};
   ]
 
 let () = Alcotest.run "Ed25519 tests" [ ("Ed25519 RFC8032", tests) ]
