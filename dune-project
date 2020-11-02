@@ -1,4 +1,4 @@
-(lang dune 2.7)
+(lang dune 2.6)
 (name hacl_x25519)
 (generate_opam_files true)
 (source (github mirage/hacl))
