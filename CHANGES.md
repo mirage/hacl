@@ -1,3 +1,7 @@
+## v0.2.2 (2020-11-03)
+
+- revise MirageOS cross-compilation (#44, @hannesm)
+
 ## v0.2.1 (2020-10-27)
 
 - revise MirageOS cross-compilation runes: use a Makefile, only support
