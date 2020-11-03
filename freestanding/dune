@@ -1,13 +1,8 @@
-(copy_files#
- (alias install)
- (files ../src/*.c))
-
-(copy_files#
- (alias install)
- (files ../src/*.h))
+(copy_files# ../src/*.c)
 
 (rule
- (deps Makefile)
+ (deps Makefile hacl_x25519_stubs.c Hacl_Hash.c Hacl_Curve25519_51.c
+   Hacl_Ed25519.c)
  (targets libhacl_x25519_freestanding_stubs.a)
  (action
   (no-infer

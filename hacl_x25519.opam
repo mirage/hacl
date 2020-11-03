@@ -18,7 +18,7 @@ homepage: "https://github.com/mirage/hacl"
 doc: "https://mirage.github.io/hacl/doc"
 bug-reports: "https://github.com/mirage/hacl/issues"
 depends: [
-  "dune" {>= "2.7"}
+  "dune" {>= "2.6"}
   "benchmark" {with-test}
   "cstruct" {>= "3.5.0"}
   "eqaf"
@@ -30,7 +30,6 @@ depends: [
   "ppx_deriving_yojson" {with-test}
   "stdlib-shims" {with-test}
   "yojson" {with-test & >= "1.6.0"}
-  "odoc" {with-doc}
 ]
 depopts: ["ocaml-freestanding"]
 conflicts: [
@@ -38,7 +37,7 @@ conflicts: [
   "ocaml-freestanding" {< "0.6.0"}
 ]
 build: [
-  ["dune" "subst"] {dev}
+  ["dune" "subst"] {pinned}
   [
     "dune"
     "build"
