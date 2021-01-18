@@ -18,21 +18,22 @@ homepage: "https://github.com/mirage/hacl"
 doc: "https://mirage.github.io/hacl/doc"
 bug-reports: "https://github.com/mirage/hacl/issues"
 depends: [
-  "dune" {>= "2.0"}
+  "dune" {>= "2.6"}
   "benchmark" {with-test}
   "cstruct" {>= "3.5.0"}
   "eqaf"
   "hex" {with-test}
   "alcotest" {with-test}
   "ocaml"
+  "conf-pkg-config" {build}
   "ppx_blob" {with-test}
   "ppx_deriving_yojson" {with-test}
   "stdlib-shims" {with-test}
   "yojson" {with-test & >= "1.6.0"}
 ]
-depopts: ["mirage-xen-posix" "ocaml-freestanding"]
+depopts: ["ocaml-freestanding"]
 conflicts: [
-  "mirage-xen-posix" {< "3.1.0"}
+  "mirage-xen" {< "6.0.0"}
   "ocaml-freestanding" {< "0.6.0"}
 ]
 build: [
