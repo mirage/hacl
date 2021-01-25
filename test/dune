@@ -9,3 +9,9 @@
  (package hacl_x25519)
  (modules rfc8032)
  (libraries hacl_x25519 alcotest))
+
+(test
+ (name colink)
+ (package hacl_x25519)
+ (modules colink)
+ (libraries hacl-star hacl_x25519))
