@@ -21,6 +21,7 @@
   (ppx_blob :with-test)
   (ppx_deriving_yojson :with-test)
   (stdlib-shims :with-test)
+  (hacl-star :with-test)
   (yojson (and :with-test (>= 1.6.0))))
  (depopts ocaml-freestanding)
  (conflicts
