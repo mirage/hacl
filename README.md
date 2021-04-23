@@ -1,3 +1,9 @@
+# Note
+
+This repository is deprecated and no longer maintained. A comprehensive elliptic curve implementation for OCaml is the [mirage-crypto-ec](https://github.com/mirage/mirage-crypto) package (using [fiat](https://github.com/mit-plv/fiat-crypto), please use that instead.
+
+If interested in [hacl-star](https://github.com/project-everest/hacl-star), use the official OCaml bindings.
+
 [![Build Status](https://travis-ci.org/mirage/hacl.svg?branch=master)](https://travis-ci.org/mirage/hacl)
 
 hacl
